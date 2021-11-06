@@ -3,6 +3,9 @@ import {
   getPost,
   createPost,
   deletePost,
+  createComment,
+  deleteComment,
+  likePost,
 } from '../../controllers/Post';
 
 export const postResolvers = {
@@ -13,5 +16,8 @@ export const postResolvers = {
   Mutation: {
     createPost,
     deletePost,
+    createComment,
+    deleteComment,
+    likePost,
   },
 };

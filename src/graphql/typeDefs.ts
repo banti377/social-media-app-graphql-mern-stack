@@ -3,10 +3,25 @@ import { gql } from 'apollo-server';
 export const typeDefs = gql`
   scalar Date
 
+  type Comment {
+    _id: ID!
+    body: String!
+    username: String!
+    createdAt: Date!
+  }
+
+  type Like {
+    _id: ID!
+    username: String!
+    createdAt: Date!
+  }
+
   type Post {
     _id: ID!
     body: String!
     username: String!
+    comments: [Comment]!
+    likes: [Like]!
     createdAt: Date!
   }
 
@@ -33,7 +48,7 @@ export const typeDefs = gql`
   }
 
   type Query {
-    getPosts: [Post!]
+    getPosts: [Post]!
     getPost(postId: ID!): Post
   }
 
@@ -42,5 +57,8 @@ export const typeDefs = gql`
     login(username: String!, password: String!): AuthData!
     createPost(body: String!): Post!
     deletePost(postId: ID!): Response!
+    createComment(postId: ID!, body: String!): Post!
+    deleteComment(postId: ID!, commentId: ID!): Response!
+    likePost(postId: ID!): Post!
   }
 `;

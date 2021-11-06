@@ -1,6 +1,8 @@
 import { model, Schema } from 'mongoose';
 
-const commentSchema = new Schema(
+import { ILike, IComment, IPost } from '../interfaces/Post';
+
+const commentSchema: Schema<IComment> = new Schema(
   {
     body: String,
     username: String,
@@ -8,14 +10,14 @@ const commentSchema = new Schema(
   { timestamps: true }
 );
 
-const likeSchema = new Schema(
+const likeSchema: Schema<ILike> = new Schema(
   {
     username: String,
   },
   { timestamps: true }
 );
 
-const postSchema = new Schema(
+const postSchema: Schema<IPost> = new Schema(
   {
     username: String,
     body: String,
@@ -26,4 +28,4 @@ const postSchema = new Schema(
   { timestamps: true }
 );
 
-export default model('Post', postSchema);
+export default model<IPost>('Post', postSchema);

@@ -28,12 +28,19 @@ export const typeDefs = gql`
     email: String!
   }
 
+  type Response {
+    success: Boolean
+  }
+
   type Query {
-    getPosts: [Post!]!
+    getPosts: [Post!]
+    getPost(postId: ID!): Post
   }
 
   type Mutation {
     register(registerInput: RegisterInput): AuthData!
     login(username: String!, password: String!): AuthData!
+    createPost(body: String!): Post!
+    deletePost(postId: ID!): Response!
   }
 `;

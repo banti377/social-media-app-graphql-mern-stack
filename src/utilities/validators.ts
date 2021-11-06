@@ -1,15 +1,12 @@
+import { ILoginErrors, IRegisterErrors } from '../interfaces/User';
+
 export const validateRegisterInput = (
   username: string,
   email: string,
   password: string,
   confirmPassword: string
 ) => {
-  const errors = {
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  };
+  const errors: IRegisterErrors = {};
 
   if (username.trim() === '') {
     errors.username = 'Username must not be empty';
@@ -37,11 +34,7 @@ export const validateRegisterInput = (
 };
 
 export const validateLoginInput = (username: string, password: string) => {
-  const errors = {
-    username: '',
-    password: '',
-    general: '',
-  };
+  const errors: ILoginErrors = {};
 
   if (username.trim() === '') {
     errors.username = 'Username must not be empty';

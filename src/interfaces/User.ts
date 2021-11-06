@@ -22,3 +22,16 @@ export interface ILoginInput {
   username: string;
   password: string;
 }
+
+export interface ILoginErrors {
+  username?: string;
+  password?: string;
+  general?: string;
+}
+
+export interface IRegisterErrors {
+  username?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+}

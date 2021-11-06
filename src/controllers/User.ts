@@ -2,11 +2,12 @@ import User from '../models/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { AuthenticationError, UserInputError } from 'apollo-server-errors';
-import {
-  validateLoginInput,
-  validateRegisterInput,
-} from '../utilities/validators';
+
 import { IUser, IRegisterInput, ILoginInput } from '../interfaces/User';
+import {
+  validateRegisterInput,
+  validateLoginInput,
+} from '../utilities/Validators';
 
 const generateToken = (user: IUser) =>
   jwt.sign(
@@ -69,8 +70,6 @@ export const login = async (_: any, { username, password }: ILoginInput) => {
   try {
     const { valid, errors } = validateLoginInput(username, password);
 
-    console.log('errors', errors, valid);
-
     if (!valid) {
       return new UserInputError('Errors', { errors });
     }
@@ -90,7 +89,6 @@ export const login = async (_: any, { username, password }: ILoginInput) => {
     }
 
     const token = generateToken(user);
-
     return { token };
   } catch (error: any) {
     throw new Error(error);

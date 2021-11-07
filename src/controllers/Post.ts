@@ -39,6 +39,10 @@ export const createPost = async (
   try {
     const { _id, username }: any = isAuth(context);
 
+    if (body.trim() === '') {
+      return new UserInputError('Post body must not be empty');
+    }
+
     const newPost = new Post({
       body: body,
       user: _id,

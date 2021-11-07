@@ -10,7 +10,7 @@ export const getPosts = async () => {
     const posts: IPost[] | [] = await Post.find().sort({ createdAt: -1 });
     return posts;
   } catch (error: any) {
-    throw new Error(error);
+    return new Error(error);
   }
 };
 
@@ -27,7 +27,7 @@ export const getPost = async (
 
     return post;
   } catch (error: any) {
-    throw new Error(error);
+    return new Error(error);
   }
 };
 

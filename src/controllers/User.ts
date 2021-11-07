@@ -35,13 +35,13 @@ export const register = async (
     );
 
     if (!valid) {
-      throw new UserInputError('Errors', { errors });
+      return new UserInputError('Errors', { errors });
     }
 
     const existingUser = await User.findOne({ username });
 
     if (existingUser) {
-      throw new UserInputError('Username is taken', {
+      return new UserInputError('Username is taken', {
         errors: {
           username: 'This username is taken',
         },
@@ -91,6 +91,6 @@ export const login = async (_: any, { username, password }: ILoginInput) => {
     const token = generateToken(user);
     return { token };
   } catch (error: any) {
-    throw new Error(error);
+    return new Error(error);
   }
 };

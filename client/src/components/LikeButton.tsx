@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { FC, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Icon, Label } from 'semantic-ui-react';
+import { Button, Icon, Label, Popup } from 'semantic-ui-react';
 import { AuthContext } from '../context/Auth';
 import { LIKE_POST } from '../graphql/Mutation';
 import { GET_POSTS } from '../graphql/Query';
@@ -51,12 +51,18 @@ const LikeButton: FC<LikeButtonProps> = ({
   );
 
   return (
-    <Button as="div" labelPosition="right" onClick={() => likePost()}>
-      {likeButton}
-      <Label basic color="teal" pointing="left">
-        {likeCount}
-      </Label>
-    </Button>
+    <Popup
+      content={liked ? 'Unlike Post' : 'Like Post'}
+      inverted
+      trigger={
+        <Button as="div" labelPosition="right" onClick={() => likePost()}>
+          {likeButton}
+          <Label basic color="teal" pointing="left">
+            {likeCount}
+          </Label>
+        </Button>
+      }
+    />
   );
 };
 

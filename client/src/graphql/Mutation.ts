@@ -89,3 +89,35 @@ export const DELETE_POST = gql`
     }
   }
 `;
+
+export const DELETE_COMMENT = gql`
+  mutation DeleteComment($postId: ID!, $commentId: ID!) {
+    deleteComment(postId: $postId, commentId: $commentId) {
+      success
+    }
+  }
+`;
+
+export const CREATE_COMMENT = gql`
+  mutation CreateComment($postId: ID!, $body: String!) {
+    createComment(postId: $postId, body: $body) {
+      _id
+      body
+      username
+      comments {
+        _id
+        username
+        createdAt
+        body
+      }
+      createdAt
+      likes {
+        _id
+        username
+        createdAt
+      }
+      likeCount
+      commentCount
+    }
+  }
+`;

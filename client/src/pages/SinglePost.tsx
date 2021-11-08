@@ -1,16 +1,27 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import moment from 'moment';
-import { FC, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
 import { useParams } from 'react-router';
-import { Button, Card, Grid, Icon, Image, Label } from 'semantic-ui-react';
+import {
+  Button,
+  Card,
+  Form,
+  Grid,
+  Icon,
+  Image,
+  Label,
+} from 'semantic-ui-react';
+
 import DeleteButton from '../components/DeleteButton';
 import LikeButton from '../components/LikeButton';
 import { AuthContext } from '../context/Auth';
-
+import { CREATE_COMMENT } from '../graphql/Mutation';
 import { GET_POST } from '../graphql/Query';
-import { IPost } from '../interfaces';
+import { IComment, IPost } from '../interfaces';
 
 const { Row, Column } = Grid;
+
+const { Input } = Form;
 
 const { Content, Header, Meta, Description } = Card;
 
@@ -19,7 +30,25 @@ const SinglePost: FC = () => {
 
   const { user } = useContext(AuthContext);
 
+  const [comment, setComment] = useState('');
+
   const { data, loading } = useQuery(GET_POST, { variables: { postId } });
+
+  const [createComment] = useMutation(CREATE_COMMENT, {
+    variables: {
+      postId,
+      body: comment,
+    },
+  });
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setComment(event.target.value);
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setComment('');
+    createComment();
+  };
 
   if (loading && !data) {
     return <p>Loading Post...</p>;
@@ -69,6 +98,41 @@ const SinglePost: FC = () => {
               )}
             </Content>
           </Card>
+          {user && (
+            <Card fluid>
+              <Content>
+                <p>Post a comment:</p>
+                <Form onSubmit={onSubmit} noValidate>
+                  <Input
+                    placeholder="Write comment..."
+                    name="comment"
+                    type="text"
+                    onChange={onChange}
+                    value={comment}
+                  />
+                  <Button
+                    type="submit"
+                    color="teal"
+                    disabled={comment.trim() === ''}
+                  >
+                    Submit
+                  </Button>
+                </Form>
+              </Content>
+            </Card>
+          )}
+          {comments.map((comment: IComment) => (
+            <Card fluid key={comment._id}>
+              <Content>
+                {user && user.username === comment.username && (
+                  <DeleteButton postId={_id} commentId={comment._id} />
+                )}
+                <Header>{comment.username}</Header>
+                <Meta>{moment(comment.createdAt).fromNow(true)}</Meta>
+                <Description>{comment.body}</Description>
+              </Content>
+            </Card>
+          ))}
         </Column>
       </Row>
     </Grid>

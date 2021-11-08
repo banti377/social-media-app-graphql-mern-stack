@@ -10,11 +10,10 @@ const { Input } = Form;
 const PostForm: FC = () => {
   const [values, setValues] = useState({ body: '' });
 
-  const [createPost, { error }] = useMutation(CREATE_POST, {
+  const [createPost] = useMutation(CREATE_POST, {
     update: () => {
       setValues({ body: '' });
     },
-    errorPolicy: 'all',
     refetchQueries: [GET_POSTS],
     variables: values,
   });
@@ -35,9 +34,8 @@ const PostForm: FC = () => {
         name="body"
         onChange={onChange}
         value={values.body}
-        error={error?.message}
       />
-      <Button style={{ marginBottom: error && 20 }} type="submit" color="teal">
+      <Button type="submit" color="teal" disabled={values.body.trim() === ''}>
         Submit
       </Button>
     </Form>

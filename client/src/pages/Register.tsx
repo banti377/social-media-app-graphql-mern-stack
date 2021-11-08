@@ -1,7 +1,9 @@
 import { useMutation } from '@apollo/client';
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Button, Form } from 'semantic-ui-react';
+
+import { AuthContext } from '../context/Auth';
 import { REGISTER_USER } from '../graphql/Mutation';
 import { IRegisterError } from '../interfaces';
 
@@ -10,7 +12,10 @@ const { Input } = Form;
 const Register: FC = () => {
   const navigate = useNavigate();
 
+  const context = useContext(AuthContext);
+
   const [errors, setErrors] = useState<IRegisterError>({});
+
   const [values, setValues] = useState({
     username: '',
     email: '',
@@ -19,8 +24,8 @@ const Register: FC = () => {
   });
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
-    update: (_, result) => {
-      console.log(result);
+    update: (_, { data: register }) => {
+      context.login(register);
       navigate('/');
     },
     onError: (error: any) => {

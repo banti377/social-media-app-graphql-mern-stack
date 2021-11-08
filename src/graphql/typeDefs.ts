@@ -31,11 +31,8 @@ export const typeDefs = gql`
     _id: ID!
     email: String!
     username: String!
-    createdAt: String!
-  }
-
-  type AuthData {
     token: String!
+    createdAt: String!
   }
 
   input RegisterInput {
@@ -55,8 +52,8 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    register(registerInput: RegisterInput): AuthData!
-    login(username: String!, password: String!): AuthData!
+    register(registerInput: RegisterInput): User!
+    login(username: String!, password: String!): User!
     createPost(body: String!): Post!
     deletePost(postId: ID!): Response!
     createComment(postId: ID!, body: String!): Post!

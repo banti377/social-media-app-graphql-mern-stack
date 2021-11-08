@@ -1,7 +1,8 @@
 import { useMutation } from '@apollo/client';
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Form, Button, Message } from 'semantic-ui-react';
+import { AuthContext } from '../context/Auth';
 import { LOGIN_USER } from '../graphql/Mutation';
 import { ILoginError } from '../interfaces';
 
@@ -9,6 +10,8 @@ const { Input } = Form;
 
 const Login: FC = () => {
   const navigate = useNavigate();
+
+  const context = useContext(AuthContext);
 
   const [errors, setErrors] = useState<ILoginError>({});
 
@@ -18,8 +21,8 @@ const Login: FC = () => {
   });
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    update: (_, result) => {
-      console.log(result);
+    update: (_, { data: { login } }) => {
+      context.login(login);
       navigate('/');
     },
     onError: (error: any) => {

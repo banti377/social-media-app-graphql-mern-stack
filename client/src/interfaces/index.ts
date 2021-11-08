@@ -1,5 +1,3 @@
-import { ApolloError } from '@apollo/client';
-
 export interface IComment {
   _id: string;
   username: string;
@@ -36,3 +34,27 @@ export interface IRegisterError {
   password?: string;
   confirmPassword?: string;
 }
+
+export interface IUser {
+  _id: string;
+  username: string;
+  token: string;
+  email: string;
+}
+
+export interface IAuthReducerInitailState {
+  user: IUser | null;
+  login: (user: IUser) => void;
+  logout: () => void;
+}
+
+interface LoginAction {
+  type: 'login';
+  payload: IUser;
+}
+
+interface LogoutAction {
+  type: 'logout';
+}
+
+export type Action = LoginAction | LogoutAction;

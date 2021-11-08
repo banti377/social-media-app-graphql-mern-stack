@@ -1,6 +1,11 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { Container } from 'semantic-ui-react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
@@ -9,19 +14,30 @@ import MenuBar from './components/MenuBar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import { AuthContext, AuthProvider } from './context/Auth';
 
 const App: FC = () => {
+  const { user } = useContext(AuthContext);
+
   return (
-    <Router>
-      <Container>
-        <MenuBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </Container>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Container>
+          <MenuBar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/login"
+              element={user ? <Navigate replace to="/" /> : <Login />}
+            />
+            <Route
+              path="/register"
+              element={user ? <Navigate replace to="/" /> : <Register />}
+            />
+          </Routes>
+        </Container>
+      </Router>
+    </AuthProvider>
   );
 };
 

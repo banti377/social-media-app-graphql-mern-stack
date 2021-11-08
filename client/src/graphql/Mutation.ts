@@ -15,6 +15,9 @@ export const REGISTER_USER = gql`
         confirmPassword: $confirmPassword
       }
     ) {
+      _id
+      username
+      email
       token
     }
   }
@@ -23,6 +26,9 @@ export const REGISTER_USER = gql`
 export const LOGIN_USER = gql`
   mutation Login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
+      _id
+      username
+      email
       token
     }
   }

@@ -1,8 +1,12 @@
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, MenuItemProps } from 'semantic-ui-react';
 
+import { AuthContext } from '../context/Auth';
+
 const MenuBar: FC = () => {
+  const { user, logout } = useContext(AuthContext);
+
   const { pathname } = useLocation();
 
   const path = pathname === '/' ? 'home' : pathname.substr(1);
@@ -14,7 +18,16 @@ const MenuBar: FC = () => {
     { name }: MenuItemProps
   ) => setActiveItem(name);
 
-  return (
+  return user ? (
+    <div>
+      <Menu pointing secondary size="massive" color="teal">
+        <Menu.Item name={user.username} active as={Link} to="/" />
+        <Menu.Menu position="right">
+          <Menu.Item name="logout" onClick={logout} as={Link} to="/login" />
+        </Menu.Menu>
+      </Menu>
+    </div>
+  ) : (
     <div>
       <Menu pointing secondary size="massive" color="teal">
         <Menu.Item
@@ -32,7 +45,6 @@ const MenuBar: FC = () => {
             as={Link}
             to="/login"
           />
-
           <Menu.Item
             name="register"
             active={activeItem === 'register'}

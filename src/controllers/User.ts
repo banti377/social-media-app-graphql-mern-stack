@@ -60,7 +60,7 @@ export const register = async (
 
     const token = generateToken(newUser);
 
-    return { token };
+    return { ...newUser._doc, token };
   } catch (error: any) {
     return new Error(error);
   }
@@ -74,7 +74,7 @@ export const login = async (_: any, { username, password }: ILoginInput) => {
       return new UserInputError('Errors', { errors });
     }
 
-    const user = await User.findOne({ username });
+    const user: any = await User.findOne({ username });
 
     if (!user) {
       errors.general = 'User not found';
@@ -89,7 +89,8 @@ export const login = async (_: any, { username, password }: ILoginInput) => {
     }
 
     const token = generateToken(user);
-    return { token };
+
+    return { ...user._doc, token };
   } catch (error: any) {
     return new Error(error);
   }

@@ -33,3 +33,27 @@ export const LOGIN_USER = gql`
     }
   }
 `;
+
+export const CREATE_POST = gql`
+  mutation CreatePost($body: String!) {
+    createPost(body: $body) {
+      _id
+      body
+      username
+      createdAt
+      comments {
+        createdAt
+        username
+        body
+        _id
+      }
+      likeCount
+      commentCount
+      likes {
+        username
+        createdAt
+        _id
+      }
+    }
+  }
+`;

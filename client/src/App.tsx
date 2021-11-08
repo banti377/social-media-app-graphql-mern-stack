@@ -15,6 +15,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import { AuthContext, AuthProvider } from './context/Auth';
+import SinglePost from './pages/SinglePost';
 
 const App: FC = () => {
   const { user } = useContext(AuthContext);
@@ -26,6 +27,7 @@ const App: FC = () => {
           <MenuBar />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/posts/:postId" element={<SinglePost />} />
             <Route
               path="/login"
               element={user ? <Navigate replace to="/" /> : <Login />}

@@ -5,13 +5,14 @@ import { Button, Card, Icon, Image, Label } from 'semantic-ui-react';
 import { AuthContext } from '../context/Auth';
 
 import { IPost } from '../interfaces';
+import DeleteButton from './DeleteButton';
 import LikeButton from './LikeButton';
 
 interface PostCardProps {
   post: IPost;
 }
 
-const { Content } = Card;
+const { Content, Meta, Description, Header } = Card;
 
 const PostCard: FC<PostCardProps> = ({
   post: { body, createdAt, _id, username, likeCount, commentCount, likes },
@@ -26,11 +27,11 @@ const PostCard: FC<PostCardProps> = ({
           size="mini"
           src="https://react.semantic-ui.com/images/avatar/large/molly.png"
         />
-        <Card.Header>{username}</Card.Header>
-        <Card.Meta as={Link} to={`/posts/${_id}`}>
+        <Header>{username}</Header>
+        <Meta as={Link} to={`/posts/${_id}`}>
           {moment(createdAt).fromNow(true)}
-        </Card.Meta>
-        <Card.Description>{body}</Card.Description>
+        </Meta>
+        <Description>{body}</Description>
       </Content>
       <Content extra>
         <LikeButton post={{ _id, likeCount, likes }} />
@@ -42,11 +43,7 @@ const PostCard: FC<PostCardProps> = ({
             {commentCount}
           </Label>
         </Button>
-        {user && user.username === username && (
-          <Button as="div" color="red" floated="right">
-            <Icon name="trash" style={{ margin: 0 }} />
-          </Button>
-        )}
+        {user && user.username === username && <DeleteButton postId={_id} />}
       </Content>
     </Card>
   );

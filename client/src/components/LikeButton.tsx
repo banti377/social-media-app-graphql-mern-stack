@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button, Icon, Label } from 'semantic-ui-react';
 import { AuthContext } from '../context/Auth';
 import { LIKE_POST } from '../graphql/Mutation';
+import { GET_POSTS } from '../graphql/Query';
 import { ILike } from '../interfaces';
 
 interface LikeButtonProps {
@@ -31,6 +32,7 @@ const LikeButton: FC<LikeButtonProps> = ({
     variables: {
       postId: _id,
     },
+    refetchQueries: [GET_POSTS],
     errorPolicy: 'all',
   });
 

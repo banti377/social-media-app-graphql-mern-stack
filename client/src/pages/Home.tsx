@@ -13,7 +13,7 @@ const { Row, Column } = Grid;
 const Home: FC = () => {
   const { user } = useContext(AuthContext);
 
-  const { loading, data } = useQuery(GET_POSTS);
+  const { loading, data } = useQuery(GET_POSTS, { fetchPolicy: 'no-cache' });
 
   return (
     <Grid columns={3}>
